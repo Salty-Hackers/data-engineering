@@ -2,6 +2,8 @@ import re
 import sqlite3
 import pandas as pd
 from typing import Dict
+from app.api.scraping import extract_hn_page_urls
+from app.api.scraping import get_hn_users_comments_scores
 from fastapi import APIRouter
 from pydantic import BaseModel, Field, validator
 
@@ -65,6 +67,7 @@ async def get_saltiest_hackers(num_hackers: int = 100,
     """)
 
     results = curs.execute(sentiment_query)
+
     return {k + 1: (v[0], round(v[1], 4)) for k, v in enumerate(results)}
 
 
