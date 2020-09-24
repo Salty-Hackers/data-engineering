@@ -35,6 +35,22 @@ dashes or underscores'
         return value
 
 
+@router.post('/newest-salty-hackers')
+async def get_newest_salty_hackers():
+    """
+    Return most recent Hacker News commenters ordered by 'saltiness'.
+
+    # Response
+    - `username`: string between 2 and 15 characters long containing only
+    letters, digits, dashes, and underscores
+
+    - `sentiment_score`: float between - 1 and 1 rounded to four decimal
+    places. Negative numbers correspond to negative sentiment.
+    """
+
+    return get_hn_users_comments_scores(extract_hn_page_urls())
+
+
 @router.post('/saltiest-hackers')
 async def get_saltiest_hackers(num_hackers: int = 100,
                                min_comments: int = 1) -> Dict[str, int]:

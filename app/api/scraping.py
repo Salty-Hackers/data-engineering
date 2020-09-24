@@ -1,7 +1,7 @@
 import requests 
 from typing import List
 from bs4 import BeautifulSoup
-from preprocessing_and_sentiment import get_sentiment_score
+from app.api.preprocessing_and_sentiment import get_sentiment_score
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
@@ -23,7 +23,7 @@ def extract_hn_page_urls(
     return urls
 
 
-def get_hn_users_comments_scores(urls):
+def get_hn_users_comments_scores(urls: str):
     total_com_scores = []
     for url in urls:
         page = requests.get(url)
