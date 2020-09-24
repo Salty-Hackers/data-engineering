@@ -35,10 +35,10 @@ dashes or underscores'
         return value
 
 
-@router.post('/newest-salty-hackers')
+@router.get('/newest-salty-hackers')
 async def get_newest_salty_hackers():
     """
-    Return most recent Hacker News commenters ordered by 'saltiness'.
+    Return most recent Hacker News comments ordered by 'saltiness'.
 
     # Response
     - `username`: string between 2 and 15 characters long containing only
