@@ -2,8 +2,7 @@ import re
 import sqlite3
 import pandas as pd
 from typing import Dict
-from app.api.scraping import extract_hn_page_urls
-from app.api.scraping import get_hn_users_comments_scores
+from app.api.hn_scraper import get_hn_users_comments_scores
 from fastapi import APIRouter
 from pydantic import BaseModel, Field, validator
 
@@ -35,10 +34,14 @@ dashes or underscores'
         return value
 
 
-@router.post('/newest-salty-hackers')
-async def get_newest_salty_hackers():
+@router.get('/newest-salty-hackers')
+async def get_newest_salty_hackers(num: int = 100):
     """
-    Return most recent Hacker News commenters ordered by 'saltiness'.
+    How do we like our hackers? Fresh – with extra salt.
+    Return most recent Hacker News comments ordered by 'saltiness'.
+
+    # Parameters
+    - `num`: integer, number of users/comment/scores to return.
 
     # Response
     - `username`: string between 2 and 15 characters long containing only
@@ -48,7 +51,7 @@ async def get_newest_salty_hackers():
     places. Negative numbers correspond to negative sentiment.
     """
 
-    return get_hn_users_comments_scores(extract_hn_page_urls())
+    return get_hn_users_comments_scores(num=num)
 
 
 @router.post('/saltiest-hackers')
@@ -59,6 +62,7 @@ async def get_saltiest_hackers(num_hackers: int = 100,
 
     # Parameters
     - `num_hackers`: positive integer, number of users(hackers) to return.
+    Limit 1,000
 
     - `min_comments`: positive integer, minimum number of comments a user
     must have to be considered.
@@ -74,16 +78,27 @@ async def get_saltiest_hackers(num_hackers: int = 100,
     conn = sqlite3.connect(database='hn.db')
     curs = conn.cursor()
 
+    if num_hackers <= 1000:
+        sentiment_query = (f"""
+        SELECT user, avg_sentiment_score
+        FROM hn_users
+        WHERE num_comments >= {min_comments}
+        ORDER BY avg_sentiment_score
+        LIMIT {num_hackers};
+        """)
+
+        results = curs.execute(sentiment_query)
+        return {k + 1: (v[0], round(v[1], 4)) for k, v in enumerate(results)}
+
     sentiment_query = (f"""
-    SELECT user, avg_sentiment_score
-    FROM hn_users
-    WHERE num_comments >= {min_comments}
-    ORDER BY avg_sentiment_score
-    LIMIT {num_hackers};
-    """)
+        SELECT user, avg_sentiment_score
+        FROM hn_users
+        WHERE num_comments >= {min_comments}
+        ORDER BY avg_sentiment_score
+        LIMIT 1000;
+        """)
 
     results = curs.execute(sentiment_query)
-
     return {k + 1: (v[0], round(v[1], 4)) for k, v in enumerate(results)}
 
 

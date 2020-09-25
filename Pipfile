@@ -4,21 +4,21 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
-flake8-docstrings = "*"
-jupyter = "*"
-pep8-naming = "*"
-pytest = "*"
-requests = "*"
+flake8 = "3.8.3"
+flake8-docstrings = "1.5.0"
+jupyter = "1.0.0"
+pep8-naming = "0.11.1"
+pytest = "6.0.2"
+requests = "2.24.0"
+ipython = "*"
 
 [packages]
-fastapi = "*"
-pandas = "*"
-uvicorn = "*"
-plotly = "*"
-beautifulsoup4 = "*"
-ipython = "*"
-vadersentiment = "*"
+fastapi = "0.61.1"
+pandas = "1.1.2"
+uvicorn = "0.11.8"
+plotly = "4.10.0"
+beautifulsoup4 = "4.9.1"
+vadersentiment = "3.3.2"
 
 [requires]
 python_version = "3.7"
