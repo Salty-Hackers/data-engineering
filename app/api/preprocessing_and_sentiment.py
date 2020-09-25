@@ -18,8 +18,7 @@ def load_data(seed: str = f'https://github.com/Salty-Hackers/'
 
     df = df.rename(columns={'author': 'user', 
                             'time_ts': 'date_time', 
-                            'text': 'comment'}
-                   )
+                            'text': 'comment'})
 
     # Return most recent non-NaN rows, default 500,000
     return df.dropna().sort_values(by='date_time', ascending=False)[:limit]
