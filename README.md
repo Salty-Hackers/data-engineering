@@ -39,12 +39,25 @@ Go to `localhost:8000` in your browser.
 |    ├── api
 |    │   ├── __init__.py
 |    │   ├── estimate.py
-|    │   └── viz.py    
+|    |   |── hn_scraper.py
+|    |   |── preprocessing_and_sentiment.py
 |    └── tests
 |        ├── __init__.py
 |        ├── test_main.py
 |        ├── test_estimate.py
-|        └── test_viz.py
+├── Data
+|        ├── hn_0.csv
+|        ├── hn_1.csv
+|        ├── hn_2.csv
+|        ├── hn_3.csv
+|        ├── hn_4.csv
+|        ├── hn_5.csv
+|        ├── hn_6.csv
+|        ├── hn_7.csv
+|        ├── hn_8.csv
+|        ├── hn_9.csv
+|        ├── hn_10.csv
+|        ├── hn_11.csv
 ├── notebooks
     ├── hn_preprocessing_and_sentiment_analysis.ipynb
 ```
@@ -80,13 +93,12 @@ Deactivate the virtual environment
 exit
 ```
 
-## Data Source
-[Google BigQuery](https://console.cloud.google.com/marketplace/product/y-combinator/hacker-news)
-
 ## Data Dictionaries
 
 ### Raw dataset
-This dataset contains all stories and comments from Hacker News from its launch in 2006 to present.
+This dataset has 1.6 million observations of Hacker News comment data bewteen 2014-2015. It is a subset of a Google BigQuery that contains all stories and comments from Hacker News from its launch in 2006 to present. [Source](https://console.cloud.google.com/marketplace/product/y-combinator/hacker-news).
+
+It is split into 12 datasets by date to be under GitHub's 100mb file size storage limit.
 
 Field | Type | Description
 ------|--------|----------
@@ -103,6 +115,7 @@ Field | Type | Description
 
 
 ### Processed datasets
+These are sqlite3 databases that are queried.
 
 #### hn_comments
 
